@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/v1/book")
 public class BookController {
 
-    private List<Book> books = new ArrayList<>();
+    private final List<Book> books = new ArrayList<>();
 
     // localhost:8080/v1/book
     @PostMapping

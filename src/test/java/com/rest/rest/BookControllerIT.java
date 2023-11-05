@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,8 +23,8 @@ class BookControllerIT {
         var book = "{\"id\":1, \"title\":\"test-book1\", \"author\":\"test-author\"}";
 
         mockMvc.perform(post("/v1/book")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(book))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(book))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("test-book1"))
                 .andExpect(jsonPath("$.author").value("test-author"));
