@@ -20,14 +20,7 @@ class BookControllerIT {
 
     @Test
     void addBook() throws Exception {
-        var book = "{\"id\":1, \"title\":\"test-book1\", \"author\":\"test-author\"}";
-
-        mockMvc.perform(post("/v1/book")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(book))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.title").value("test-book1"))
-                .andExpect(jsonPath("$.author").value("test-author"));
+        create();
     }
 
     @Test
@@ -38,16 +31,9 @@ class BookControllerIT {
 
     @Test
     void getBooks() throws Exception {
-        // create
-        var book = "{\"id\":1, \"title\":\"test-book1\", \"author\":\"test-author\"}";
-        mockMvc.perform(post("/v1/book")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(book))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.title").value("test-book1"))
-                .andExpect(jsonPath("$.author").value("test-author"));
+        create();
 
-        // check: is created?
+        // check: get method
         mockMvc.perform(get("/v1/book/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("test-book1"))
@@ -57,14 +43,7 @@ class BookControllerIT {
 
     @Test
     void updateBook() throws Exception {
-        // create
-        var book = "{\"id\":1, \"title\":\"test-book1\", \"author\":\"test-author\"}";
-        mockMvc.perform(post("/v1/book")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(book))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.title").value("test-book1"))
-                .andExpect(jsonPath("$.author").value("test-author"));
+        create();
 
         // update
         var bookUpdate = "{\"id\":1, \"title\":\"test-book1-new-version\", \"author\":\"test-author\"}";
@@ -78,7 +57,14 @@ class BookControllerIT {
 
     @Test
     void deleteBook() throws Exception {
-        // create
+        create();
+
+        // delete
+        mockMvc.perform(delete("/v1/book/1"))
+                .andExpect(status().isNoContent());
+    }
+
+    private void create() throws Exception {
         var book = "{\"id\":1, \"title\":\"test-book1\", \"author\":\"test-author\"}";
         mockMvc.perform(post("/v1/book")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -86,11 +72,6 @@ class BookControllerIT {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("test-book1"))
                 .andExpect(jsonPath("$.author").value("test-author"));
-
-        // delete
-        mockMvc.perform(delete("/v1/book/1"))
-                .andExpect(status().isNoContent());
-
     }
 }
 
