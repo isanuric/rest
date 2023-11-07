@@ -13,7 +13,6 @@ public class BookController {
 
     private final List<Book> books = new ArrayList<>();
 
-    // localhost:8080/v1/book
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         books.add(book);
