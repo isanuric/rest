@@ -1,59 +1,36 @@
 package com.rest.rest;
 
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@AllArgsConstructor
 @RestController
 @RequestMapping("/v1/book")
 public class BookController {
 
-    private final List<Book> books = new ArrayList<>();
+    // concept: BookController -> BookService -> BookRepository
+
+    private final BookService bookService;
 
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
-        books.add(book);
-        return new ResponseEntity<>(book, HttpStatus.CREATED);
+        return bookService.addBook(book);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> getBooks(@PathVariable Long id) {
-        var book = findById(id);
-        if (book != null) {
-            return new ResponseEntity<>(book, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return bookService.getBook(id);
     }
 
     @PutMapping
     public ResponseEntity<Book> updateBook(@RequestBody Book book) {
-        var persistedBook = findById(book.getId());
-        if (persistedBook != null) {
-            persistedBook.setTitle(book.getTitle());
-            persistedBook.setAuthor(book.getAuthor());
-            return new ResponseEntity<>(persistedBook, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return bookService.updateBook(book);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-        var persistedBook = findById(id);
-        if (persistedBook != null) {
-            books.remove(persistedBook);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    private Book findById(Long id) {
-        return books.stream()
-                .filter(book -> book.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        return bookService.deleteBook(id);
     }
 
 }
