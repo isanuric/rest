@@ -33,7 +33,6 @@ class BookControllerIT {
     void getBooks() throws Exception {
         create();
 
-        // check: get method
         mockMvc.perform(get("/v1/book/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("test-book1"))
