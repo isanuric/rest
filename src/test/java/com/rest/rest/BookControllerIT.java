@@ -38,7 +38,6 @@ class BookControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("test-book1"))
                 .andExpect(jsonPath("$.author").value("test-author"));
-
     }
 
     @Test
@@ -74,27 +73,3 @@ class BookControllerIT {
                 .andExpect(jsonPath("$.author").value("test-author"));
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
